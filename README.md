@@ -19,7 +19,7 @@ It also has color and animation for state and flow.
 Copy the code from the xtend_xtreme_schema_card.yaml into an empty card.
 
 ### Dependencies
-- <a href="https://github.com/DSchoutsen/HA_connection_Xtend">HA_connection_Xtend</a> for the sensors from Xtend and Xtreme
+- <a href="https://github.com/DSchoutsen/HA_connection_Xtend">HA_connection_Xtend</a> for the connection to and sensors from Xtend and Xtreme
 - <a href="https://github.com/thomasloven/lovelace-card-mod">Card Mod (HACS)</a> for animation and styling
 - <a href="https://github.com/piitaya/lovelace-mushroom">Mushroom Title Card (HACS)</a> for some headers
 
