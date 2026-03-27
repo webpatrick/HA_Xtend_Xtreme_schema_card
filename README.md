@@ -64,3 +64,7 @@ In addition to the Xtend and Xtreme template sensors (from DSchouten HA_connecti
           mdi:fire-off
         {% endif %}
 ```
+
+#### My dahsboard for reference
+
+<img width="2482" height="1376" alt="Screenshot 2026-03-27 115817" src="https://github.com/user-attachments/assets/07b61b86-9b9c-41f2-82df-9d52e2a83bff" />
