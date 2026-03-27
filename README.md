@@ -1,6 +1,6 @@
 # HA_Xtend_Xtreme_schema_card
 
-Work in progress...
+NOTE: this works for me, so I posible will not be updating this, but you can always fork this for your own setup.
 
 I made myself a Home Assistant card based on the schema below and on the REST connection described in https://github.com/DSchoutsen/HA_connection_Xtend and I would like to share this with every other user of the integration and own an Intergas Xtend and Xtreme.
 
