@@ -1,0 +1,1 @@
+# HA_Xtend_Xtreme_schema_card
