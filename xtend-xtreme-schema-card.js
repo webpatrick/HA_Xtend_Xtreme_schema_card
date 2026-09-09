@@ -11,6 +11,13 @@ class XtendXtremeSchemaCard extends HTMLElement {
     }
 
     this._config = {
+      colors: {
+        iconActive: "#f1c40f",
+        iconInactive: "var(--secondary-text-color)",
+        heatActive: "#ff8c00",
+        coolActive: "#3498db",
+        ...config.colors,
+      },
       labels: {
         indoorTitle: "Binnen",
         outdoorTitle: "Buiten",
@@ -91,6 +98,39 @@ class XtendXtremeSchemaCard extends HTMLElement {
     }
 
     return state.state;
+  }
+
+  _openMoreInfo(entityId) {
+    if (!entityId) return;
+    const event = new Event("hass-more-info", {
+      bubbles: true,
+      composed: true,
+    });
+    event.detail = { entityId };
+    this.dispatchEvent(event);
+  }
+
+  _setTapTarget(selector, entityId) {
+    const el = this.content?.querySelector(selector);
+    if (!el) return;
+
+    if (!entityId) {
+      el.onclick = null;
+      el.style.cursor = "";
+      el.style.pointerEvents = "";
+      return;
+    }
+
+    el.style.cursor = "pointer";
+    el.style.pointerEvents = "auto";
+    el.onclick = () => this._openMoreInfo(entityId);
+  }
+
+  _setIconColor(iconEl, color) {
+    iconEl.style.color = color;
+    iconEl.style.setProperty("--paper-item-icon-color", color);
+    iconEl.style.setProperty("--icon-primary-color", color);
+    iconEl.style.fill = color;
   }
 
   _render() {
@@ -176,7 +216,11 @@ class XtendXtremeSchemaCard extends HTMLElement {
           <div class="txt odu-title" id="oduTitle"></div>
           <div class="txt odu-gas value-hot" id="oduGas"></div>
           <div class="txt odu-liquid value-cold" id="oduLiquid"></div>
-          <ha-icon class="icon fan-icon" id="fanIcon" icon="mdi:fan"></ha-icon>
+          <div class="fan-icon-wrap" id="fanWrap">
+            <svg class="fan-icon" id="fanIcon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12,11A1,1 0 0,0 11,12A1,1 0 0,0 12,13A1,1 0 0,0 13,12A1,1 0 0,0 12,11M12.5,2C17,2 17.11,5.57 14.75,6.75C13.76,7.24 13.32,8.29 13.13,9.22C13.61,9.42 14.03,9.73 14.35,10.13C18.05,8.13 22.03,8.92 22.03,12.5C22.03,17 18.46,17.1 17.28,14.73C16.78,13.74 15.72,13.3 14.79,13.11C14.59,13.59 14.28,14 13.88,14.34C15.87,18.03 15.08,22 11.5,22C7,22 6.91,18.42 9.27,17.24C10.25,16.75 10.69,15.71 10.89,14.79C10.4,14.59 9.97,14.27 9.65,13.87C5.96,15.85 2,15.07 2,11.5C2,7 5.56,6.89 6.74,9.26C7.24,10.25 8.29,10.68 9.22,10.87C9.41,10.39 9.73,9.97 10.14,9.65C8.15,5.96 8.94,2 12.5,2Z"></path>
+            </svg>
+          </div>
           <div class="txt fan-speed" id="fanSpeed"></div>
         </div>
       </ha-card>
@@ -249,51 +293,79 @@ class XtendXtremeSchemaCard extends HTMLElement {
       }
       .txt {
         transform: translate(-50%, -50%);
+        white-space: nowrap;
       }
       .value-hot {
-        color: #ff8c00;
+        color: var(--xtx-heat-active, #ff8c00);
         font-weight: 700;
       }
       .value-cold {
-        color: #3498db;
+        color: var(--xtx-cool-active, #3498db);
         font-weight: 700;
       }
       .value-muted {
         color: var(--secondary-text-color);
       }
-      .heat-label { left: 27%; top: 92.6%; color: gray; opacity: 0.9; font-size: 1rem; }
-      .indoor-title { left: 8%; top: 78%; font-size: 2rem; font-weight: 600; }
-      .indoor-temp { left: 8%; top: 84%; font-size: 2rem; font-weight: 700; }
-      .dhw-flow { left: 28%; top: 79.7%; color: var(--secondary-text-color); font-size: 1.4rem; display: none; }
-      .ch-flow { left: 28%; top: 86%; color: var(--secondary-text-color); font-size: 1.4rem; display: none; }
+      .heat-label { left: 35%; top: 92%; color: gray; opacity: 0.9; font-size: 1rem; }
+      .indoor-title { left: 8%; top: 78%; font-size: 1rem; font-weight: 600; }
+      .indoor-temp { left: 8%; top: 84%; font-size: 0.9rem; font-weight: 700; }
+      .dhw-flow { left: 28%; top: 79.7%; color: var(--secondary-text-color); font-size: 0.8rem; display: none; }
+      .ch-flow { left: 28%; top: 86%; color: var(--secondary-text-color); font-size: 0.8rem; display: none; }
 
-      .xtreme-title { left: 19%; top: 8%; font-size: 2rem; font-weight: 700; }
-      .xtreme-supply { left: 19%; top: 16%; font-size: 2rem; }
-      .xtreme-delta { left: 19%; top: 25%; font-size: 1.8rem; }
-      .xtreme-return { left: 19%; top: 34%; font-size: 2rem; }
-      .xtreme-icon { left: 19%; top: 42%; color: #3498db; }
-      .shower-icon { left: 8%; top: 65%; color: #f1c40f; display: none; }
+      .xtreme-title { left: 19%; top: 8%; font-size: 1rem; font-weight: 700; }
+      .xtreme-supply { left: 19%; top: 16%; font-size: 1rem; }
+      .xtreme-delta { left: 19%; top: 25%; font-size: 1rem; }
+      .xtreme-return { left: 19%; top: 34%; font-size: 1rem; }
+      .xtreme-icon { left: 19%; top: 42%; color: var(--xtx-icon-inactive, var(--secondary-text-color)); }
+      .shower-icon {
+        left: 9%;
+        top: 66%;
+        width: 28px;
+        height: 28px;
+        color: var(--xtx-icon-inactive, var(--secondary-text-color));
+        opacity: 0.85;
+      }
 
-      .xtend-title { left: 46%; top: 8%; font-size: 2rem; font-weight: 700; }
-      .xtend-supply { left: 46%; top: 16%; font-size: 2rem; }
-      .xtend-delta { left: 46%; top: 25%; font-size: 1.8rem; }
-      .xtend-return { left: 46%; top: 34%; font-size: 2rem; }
-      .xtend-icon { left: 46%; top: 42%; color: #3498db; }
-      .room-set { left: 66%; top: 54.5%; font-size: 1.5rem; font-weight: 700; }
-      .room-adjust { left: 66%; top: 57%; font-size: 1.2rem; color: gray; }
-      .req-temp { left: 61%; top: 86%; color: var(--secondary-text-color); font-size: 1.4rem; display: none; }
+      .xtend-title { left: 46%; top: 8%; font-size: 1rem; font-weight: 700; }
+      .xtend-supply { left: 46%; top: 16%; font-size: 1rem; }
+      .xtend-delta { left: 46%; top: 25%; font-size: 1rem; }
+      .xtend-return { left: 46%; top: 34%; font-size: 1rem; }
+      .xtend-icon { left: 46%; top: 42%; color: var(--xtx-icon-inactive, var(--secondary-text-color)); }
+      .room-set { left: 66%; top: 54.5%; font-size: 0.8rem; font-weight: 700; }
+      .room-adjust { left: 66%; top: 58.2%; font-size: 0.8rem; color: gray; }
+      .req-temp { left: 61%; top: 86%; color: var(--secondary-text-color); font-size: 0.8rem; display: none; }
 
-      .outdoor-title { left: 89%; top: 3%; font-size: 1.8rem; font-weight: 600; }
-      .outdoor-temp { left: 89%; top: 11%; font-size: 1.8rem; }
-      .odu-title { left: 89%; top: 53%; font-size: 2rem; font-weight: 700; }
-      .odu-gas { left: 89%; top: 61%; font-size: 2rem; }
-      .odu-liquid { left: 89%; top: 70%; font-size: 2rem; }
-      .fan-icon { left: 89%; top: 78%; color: #4f89c8; }
-      .fan-speed { left: 89%; top: 86%; color: var(--secondary-text-color); font-size: 1.4rem; }
+      .outdoor-title { left: 89%; top: 3%; font-size: 1rem; font-weight: 600; }
+      .outdoor-temp { left: 89%; top: 11%; font-size: 0.9rem; }
+      .odu-title { left: 89%; top: 53%; font-size: 1rem; font-weight: 700; }
+      .odu-gas { left: 89%; top: 61%; font-size: 1rem; }
+      .odu-liquid { left: 89%; top: 70%; font-size: 1rem; }
+      .fan-icon-wrap {
+        position: absolute;
+        left: 89%;
+        top: 78%;
+        width: 32px;
+        height: 32px;
+        transform: translate(-50%, -50%);
+      }
+      .fan-icon {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 78%;
+        height: 78%;
+        display: block;
+        transform: translate(-50%, -50%);
+        transform-origin: 50% 50%;
+        transform-box: border-box;
+        line-height: 0;
+        fill: currentColor;
+      }
+      .fan-speed { left: 89%; top: 86%; color: var(--secondary-text-color); font-size: 0.8rem; }
 
       .icon {
-        width: 42px;
-        height: 42px;
+        width: 32px;
+        height: 32px;
         transform: translate(-50%, -50%);
       }
       .pulse {
@@ -331,6 +403,12 @@ class XtendXtremeSchemaCard extends HTMLElement {
 
     const entities = this._config.entities;
     const labels = this._config.labels;
+    const colors = this._config.colors;
+
+    this.style.setProperty("--xtx-icon-active", colors.iconActive);
+    this.style.setProperty("--xtx-icon-inactive", colors.iconInactive);
+    this.style.setProperty("--xtx-heat-active", colors.heatActive);
+    this.style.setProperty("--xtx-cool-active", colors.coolActive);
 
     const xtremeActiveCheck = this._isOn(entities.xtreme_active_check || entities.xtreme_active);
     const xtremeIsActive = this._isOn(entities.xtreme_is_active || entities.xtreme_active_check || entities.xtreme_active);
@@ -369,31 +447,33 @@ class XtendXtremeSchemaCard extends HTMLElement {
 
     const xtremeSupply = this.content.querySelector("#xtremeSupply");
     const xtremeReturn = this.content.querySelector("#xtremeReturn");
-    xtremeSupply.style.color = xtremeActiveCheck ? "#ff8c00" : "gray";
-    xtremeReturn.style.color = xtremeActiveCheck ? "#3498db" : "gray";
+    xtremeSupply.style.color = xtremeActiveCheck ? colors.heatActive : "gray";
+    xtremeReturn.style.color = xtremeActiveCheck ? colors.coolActive : "gray";
 
     const xtendSupply = this.content.querySelector("#xtendSupply");
     const xtendReturn = this.content.querySelector("#xtendReturn");
-    xtendSupply.style.color = burnerActive ? "#ff8c00" : "gray";
-    xtendReturn.style.color = burnerActive ? "#3498db" : "gray";
+    xtendSupply.style.color = burnerActive ? colors.heatActive : "gray";
+    xtendReturn.style.color = burnerActive ? colors.coolActive : "gray";
 
     const oduGas = this.content.querySelector("#oduGas");
     const oduLiquid = this.content.querySelector("#oduLiquid");
     const fanEnabled = fanSpeed > 0;
-    oduGas.style.color = fanEnabled ? "#ff8c00" : "gray";
-    oduLiquid.style.color = fanEnabled ? "#3498db" : "gray";
+    oduGas.style.color = fanEnabled ? colors.heatActive : "gray";
+    oduLiquid.style.color = fanEnabled ? colors.coolActive : "gray";
 
     const xtremeIcon = this.content.querySelector("#xtremeIcon");
     xtremeIcon.icon = xtremeIsActive ? "mdi:fire" : "mdi:fire-off";
     xtremeIcon.classList.toggle("pulse", xtremeIsActive);
+    this._setIconColor(xtremeIcon, xtremeIsActive ? colors.iconActive : colors.iconInactive);
 
     const xtendIcon = this.content.querySelector("#xtendIcon");
     xtendIcon.icon = xtendIsActive ? "mdi:fire" : "mdi:fire-off";
     xtendIcon.classList.toggle("pulse", xtendIsActive);
+    this._setIconColor(xtendIcon, xtendIsActive ? colors.iconActive : colors.iconInactive);
 
     const fanIcon = this.content.querySelector("#fanIcon");
     fanIcon.classList.toggle("rotate", fanEnabled);
-    fanIcon.style.color = fanEnabled ? "#f1c40f" : "#4f89c8";
+    this._setIconColor(fanIcon, fanEnabled ? colors.iconActive : colors.iconInactive);
     fanIcon.style.animationDuration = `${500 / Math.max(fanSpeed, 0.1)}s`;
 
     this.content.querySelector("#dhwFlow").style.display = dhwFlow > 0 ? "block" : "none";
@@ -407,7 +487,32 @@ class XtendXtremeSchemaCard extends HTMLElement {
     this.content.querySelector("#flow-fan").style.display = fanEnabled ? "block" : "none";
 
     const showerIcon = this.content.querySelector("#showerIcon");
-    showerIcon.style.display = dhwFlow > 0 ? "block" : "none";
+    showerIcon.icon = "mdi:shower-head";
+    this._setIconColor(showerIcon, dhwFlow > 0 ? colors.iconActive : colors.iconInactive);
+    showerIcon.style.opacity = dhwFlow > 0 ? "1" : "0.85";
+
+    this._setTapTarget("#indoorTemp", entities.indoor_temperature);
+    this._setTapTarget("#dhwFlow", entities.xtreme_dhw_flowrate);
+    this._setTapTarget("#chFlow", entities.ch_flow || entities.indoor_flow);
+    this._setTapTarget("#requestedTemp", entities.indoor_requested_temperature);
+
+    this._setTapTarget("#xtremeSupply", entities.xtreme_supply_temperature);
+    this._setTapTarget("#xtremeDelta", entities.xtreme_delta_t);
+    this._setTapTarget("#xtremeReturn", entities.xtreme_return_temperature);
+    this._setTapTarget("#xtremeIcon", entities.xtreme_is_active || entities.xtreme_active_check || entities.xtreme_active);
+
+    this._setTapTarget("#xtendSupply", entities.xtend_supply_temperature);
+    this._setTapTarget("#xtendDelta", entities.xtend_delta_t);
+    this._setTapTarget("#xtendReturn", entities.xtend_return_temperature);
+    this._setTapTarget("#xtendIcon", entities.xtend_is_active || entities.xtend_active_check || entities.xtend_active);
+
+    this._setTapTarget("#roomSet", entities.room_set_temperature);
+    this._setTapTarget("#outdoorTemp", entities.outdoor_temperature);
+    this._setTapTarget("#oduGas", entities.odu_gas_temperature);
+    this._setTapTarget("#oduLiquid", entities.odu_liquid_temperature);
+    this._setTapTarget("#fanWrap", entities.ch_flow || entities.indoor_flow);
+    this._setTapTarget("#fanSpeed", entities.fan_speed);
+    this._setTapTarget("#showerIcon", entities.xtreme_dhw_flowrate);
   }
 }
 

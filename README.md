@@ -57,6 +57,11 @@ labels:
   xtremeTitle: Xtreme
   xtendTitle: Xtend
   heatDistributionLabel: "~ Warmteverdeelsysteem ~"
+colors:
+  iconActive: "#f1c40f"
+  iconInactive: "var(--secondary-text-color)"
+  heatActive: "#ff8c00"
+  coolActive: "#3498db"
 ```
 
 ### Dependencies
