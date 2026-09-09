@@ -14,9 +14,50 @@ It also has color and animation for state and flow.
 
 <img width="450" alt="image" src="animation.gif" />
 
-## Installation
+## Installation (YAML / Picture Elements)
 
-Copy the code from the xtend_xtreme_schema_card.yaml into an empty card.
+Copy the code from [xtend_xtreme_schema_card.yaml](./xtend_xtreme_schema_card.yaml) into an empty card.
+
+## Installation (HACS JavaScript card)
+
+1. Add this repository as a custom repository in HACS (`Dashboard` category).
+2. Install **Xtend Xtreme Schema Card**.
+3. Add [xtend-xtreme-schema-card.js](./xtend-xtreme-schema-card.js) as a Lovelace resource if needed:
+   - URL: `/hacsfiles/HA_Xtend_Xtreme_schema_card/xtend-xtreme-schema-card.js`
+   - Type: `module`
+4. Add a card:
+
+```yaml
+type: custom:xtend-xtreme-schema-card
+entities:
+  indoor_temperature: sensor.intergas_xtend_room_temperature
+  ch_flow: sensor.intergas_xtend_f_system
+  indoor_requested_temperature: sensor.intergas_xtend_requested_temperature
+  room_set_temperature: sensor.intergas_xtend_room_temperature_set
+  outdoor_temperature: sensor.intergas_xtend_outdoor_temperature
+  xtreme_supply_temperature: sensor.intergas_xtreme_t_boiler_supply
+  xtreme_delta_t: sensor.intergas_xtreme_delta_t
+  xtreme_return_temperature: sensor.intergas_xtreme_t_boiler_return
+  xtreme_active_check: binary_sensor.intergas_xtreme_active_check
+  xtreme_is_active: binary_sensor.intergas_xtreme_is_active
+  xtreme_dhw_flowrate: sensor.intergas_xtreme_boiler_ot_dhw_flowrate
+  xtend_supply_temperature: sensor.intergas_xtend_t_heat_pump_supply
+  xtend_delta_t: sensor.intergas_xtend_delta_t
+  xtend_return_temperature: sensor.intergas_xtend_t_heat_pump_return
+  xtend_active_check: binary_sensor.intergas_xtend_active_check
+  xtend_is_active: binary_sensor.intergas_xtend_is_active
+  burner_active: binary_sensor.boiler_burner
+  odu_gas_temperature: sensor.intergas_xtend_temperature_condensor_refrigrerant_gas
+  odu_liquid_temperature: sensor.intergas_xtend_temperature_condensor_refrigrerant_liquid
+  fan_speed: sensor.intergas_xtend_actual_fan_speed
+labels:
+  indoorTitle: Binnen
+  outdoorTitle: Buiten
+  oduTitle: ODU
+  xtremeTitle: Xtreme
+  xtendTitle: Xtend
+  heatDistributionLabel: "~ Warmteverdeelsysteem ~"
+```
 
 ### Dependencies
 - <a href="https://github.com/DSchoutsen/HA_connection_Xtend">HA_connection_Xtend</a> for the connection to and sensors from Xtend and Xtreme
