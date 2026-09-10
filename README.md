@@ -1,4 +1,4 @@
-# HA_Xtend_Xtreme_schema_card
+# HA Intergas Local Flow Card
 
 NOTE: this works for me, so I posible will not be updating this, but you can always fork this for your own setup.
 
@@ -13,10 +13,6 @@ The card is an <a href="https://www.home-assistant.io/dashboards/picture-element
 It also has color and animation for state and flow.
 
 <img width="450" alt="image" src="animation.gif" />
-
-## Installation (YAML / Picture Elements)
-
-Copy the code from [xtend_xtreme_schema_card.yaml](./xtend_xtreme_schema_card.yaml) into an empty card.
 
 ## Installation (HACS JavaScript card)
 
@@ -65,52 +61,7 @@ colors:
 ```
 
 ### Dependencies
-- <a href="https://github.com/DSchoutsen/HA_connection_Xtend">HA_connection_Xtend</a> for the connection to and sensors from Xtend and Xtreme
-- <a href="https://github.com/thomasloven/lovelace-card-mod">Card Mod (HACS)</a> for animation and styling
-- <a href="https://github.com/piitaya/lovelace-mushroom">Mushroom Title Card (HACS)</a> for some headers
-
-In addition to the Xtend and Xtreme template sensors (from DSchouten HA_connection_Xtend) I added some extra calculated sensors I use in this card:
-
-### Xtend
-```yaml
-- binary_sensor:
-    - name: xtend_actief_check
-      unique_id: xtend_actief_check
-      state: "{{ states('sensor.xtend_heatpumpmode') == 'Heating' }}"
-      icon: >
-        {% if states('sensor.xtend_heatpumpmode') == 'Heating' %}
-          mdi:fire
-        {% else %}
-          mdi:fire-off
-        {% endif %}
-```
-
-### Xtreme
-```yaml
-# Custom calculated xtreme entities
-- sensor:
-    - name: xtreme_deltaT
-      unique_id: 11932596-f4ae-4c89-9dad-2163f442711c
-      unit_of_measurement: "°C"
-      device_class: temperature
-      state_class: measurement
-      state: >
-        {{ (states('sensor.xtreme_tBoilerSupply') | int - states('sensor.xtreme_tBoilerReturn') | int) | float | round(1) }}
-      icon: mdi:thermometer-check
-
-- binary_sensor:
-    - name: "Xtreme Actief Check"
-      unique_id: 0e3bae55-3c03-4722-a306-b919c78f0cb8
-      state: "{{ states('sensor.xtreme_deltat') | float(0) > 0.5 }}"
-      icon: >
-        {% if states('sensor.xtreme_deltat') | float(0) > 0.5 %}
-          mdi:fire
-        {% else %}
-          mdi:fire-off
-        {% endif %}
-```
-
-I hope I covered all dependencies. Made this repository after everything was running smooth.
+- <a href="https://github.com/webpatrick/intergas_local">HA Intergas Local</a> for the connection to and sensors from Xtend and Xtreme
 
 #### My dashboard for reference
 
