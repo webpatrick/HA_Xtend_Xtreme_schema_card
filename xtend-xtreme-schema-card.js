@@ -323,6 +323,7 @@ class XtendXtremeSchemaCard extends HTMLElement {
         width: 28px;
         height: 28px;
         color: var(--xtx-icon-inactive, var(--secondary-text-color));
+        opacity: 0.85;
       }
 
       .xtend-title { left: 46%; top: 10%; font-size: 1rem; font-weight: 700; }
@@ -488,7 +489,8 @@ class XtendXtremeSchemaCard extends HTMLElement {
     const showerIcon = this.content.querySelector("#showerIcon");
     showerIcon.icon = "mdi:shower-head";
     this._setIconColor(showerIcon, dhwFlow > 0 ? colors.iconActive : colors.iconInactive);
-
+    showerIcon.style.opacity = dhwFlow > 0 ? "1" : "0.85";
+    
     this._setTapTarget("#indoorTemp", entities.indoor_temperature);
     this._setTapTarget("#dhwFlow", entities.xtreme_dhw_flowrate);
     this._setTapTarget("#chFlow", entities.ch_flow || entities.indoor_flow);
