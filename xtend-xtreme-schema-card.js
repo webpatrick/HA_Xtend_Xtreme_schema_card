@@ -207,7 +207,7 @@ class XtendXtremeSchemaCard extends HTMLElement {
           <ha-icon class="icon xtend-icon" id="xtendIcon"></ha-icon>
 
           <div class="txt room-set" id="roomSet"></div>
-          <div class="txt room-adjust">− &nbsp; +</div>
+          <div class="txt room-adjust">− . +</div>
           <div class="txt req-temp" id="requestedTemp"></div>
 
           <div class="txt outdoor-title" id="outdoorTitle"></div>
