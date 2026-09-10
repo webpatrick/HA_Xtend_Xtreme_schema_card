@@ -306,27 +306,27 @@ class XtendXtremeSchemaCard extends HTMLElement {
       .value-muted {
         color: var(--secondary-text-color);
       }
-      .heat-label { left: 35%; top: 92%; color: gray; opacity: 0.9; font-size: 1rem; }
-      .indoor-title { left: 8%; top: 78%; font-size: 1rem; font-weight: 600; }
-      .indoor-temp { left: 8%; top: 84%; font-size: 0.9rem; font-weight: 700; }
+      .heat-label { left: 35%; top: 92%; color: gray; opacity: 0.9; font-size: 0.7rem; }
+      .indoor-title { left: 8%; top: 78%; font-size: 1rem; font-weight: 700; }
+      .indoor-temp { left: 8%; top: 84%; font-size: 0.9rem; }
       .dhw-flow { left: 28%; top: 79.7%; color: var(--secondary-text-color); font-size: 0.8rem; display: none; }
       .ch-flow { left: 28%; top: 86%; color: var(--secondary-text-color); font-size: 0.8rem; display: none; }
 
-      .xtreme-title { left: 19%; top: 8%; font-size: 1rem; font-weight: 700; }
+      .xtreme-title { left: 19%; top: 10%; font-size: 1rem; font-weight: 700; }
       .xtreme-supply { left: 19%; top: 16%; font-size: 1rem; }
       .xtreme-delta { left: 19%; top: 25%; font-size: 1rem; }
       .xtreme-return { left: 19%; top: 34%; font-size: 1rem; }
       .xtreme-icon { left: 19%; top: 42%; color: var(--xtx-icon-inactive, var(--secondary-text-color)); }
       .shower-icon {
-        left: 9%;
-        top: 66%;
+        left: 8.8%;
+        top: 65%;
         width: 28px;
         height: 28px;
         color: var(--xtx-icon-inactive, var(--secondary-text-color));
         opacity: 0.85;
       }
 
-      .xtend-title { left: 46%; top: 8%; font-size: 1rem; font-weight: 700; }
+      .xtend-title { left: 46%; top: 10%; font-size: 1rem; font-weight: 700; }
       .xtend-supply { left: 46%; top: 16%; font-size: 1rem; }
       .xtend-delta { left: 46%; top: 25%; font-size: 1rem; }
       .xtend-return { left: 46%; top: 34%; font-size: 1rem; }
@@ -335,7 +335,7 @@ class XtendXtremeSchemaCard extends HTMLElement {
       .room-adjust { left: 66%; top: 58.2%; font-size: 0.8rem; color: gray; }
       .req-temp { left: 61%; top: 86%; color: var(--secondary-text-color); font-size: 0.8rem; display: none; }
 
-      .outdoor-title { left: 89%; top: 3%; font-size: 1rem; font-weight: 600; }
+      .outdoor-title { left: 89%; top: 5%; font-size: 1rem; font-weight: 700; }
       .outdoor-temp { left: 89%; top: 11%; font-size: 0.9rem; }
       .odu-title { left: 89%; top: 53%; font-size: 1rem; font-weight: 700; }
       .odu-gas { left: 89%; top: 61%; font-size: 1rem; }
