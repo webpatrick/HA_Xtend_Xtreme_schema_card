@@ -2,7 +2,7 @@
 
 NOTE: this works for me, so I posible will not be updating this, but you can always fork this for your own setup.
 
-I made myself a Home Assistant card based on the schema below and on the REST connection described in https://github.com/DSchoutsen/HA_connection_Xtend and I would like to share this with every other user of the integration and own an Intergas Xtend and Xtreme.
+I made myself a Home Assistant card based on the schema below and on the [HA Intergas Local integration](https://github.com/webpatrick/intergas_local) and I would like to share this with every other user of the integration and own an Intergas Xtend and Xtreme.
 
 <img width="600" alt="image" src="https://github.com/user-attachments/assets/e9b59994-9793-4d80-b700-e1c60cc90c96" />
 
