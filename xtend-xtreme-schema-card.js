@@ -323,7 +323,6 @@ class XtendXtremeSchemaCard extends HTMLElement {
         width: 28px;
         height: 28px;
         color: var(--xtx-icon-inactive, var(--secondary-text-color));
-        opacity: 0.85;
       }
 
       .xtend-title { left: 46%; top: 10%; font-size: 1rem; font-weight: 700; }
@@ -331,13 +330,13 @@ class XtendXtremeSchemaCard extends HTMLElement {
       .xtend-delta { left: 46%; top: 25%; font-size: 1rem; }
       .xtend-return { left: 46%; top: 34%; font-size: 1rem; }
       .xtend-icon { left: 46%; top: 42%; color: var(--xtx-icon-inactive, var(--secondary-text-color)); }
-      .room-set { left: 66%; top: 54.5%; font-size: 0.8rem; font-weight: 700; }
-      .room-adjust { left: 66%; top: 58.2%; font-size: 0.8rem; color: gray; }
+      .room-set { left: 66%; top: 54.5%; font-size: 0.8rem; }
+      .room-adjust { left: 66%; top: 59%; font-size: 0.8rem; font-weight: 700; }
       .req-temp { left: 61%; top: 86%; color: var(--secondary-text-color); font-size: 0.8rem; display: none; }
 
       .outdoor-title { left: 89%; top: 5%; font-size: 1rem; font-weight: 700; }
       .outdoor-temp { left: 89%; top: 11%; font-size: 0.9rem; }
-      .odu-title { left: 89%; top: 53%; font-size: 1rem; font-weight: 700; }
+      .odu-title { left: 89%; top: 55%; font-size: 1rem; font-weight: 700; }
       .odu-gas { left: 89%; top: 61%; font-size: 1rem; }
       .odu-liquid { left: 89%; top: 70%; font-size: 1rem; }
       .fan-icon-wrap {
@@ -489,7 +488,6 @@ class XtendXtremeSchemaCard extends HTMLElement {
     const showerIcon = this.content.querySelector("#showerIcon");
     showerIcon.icon = "mdi:shower-head";
     this._setIconColor(showerIcon, dhwFlow > 0 ? colors.iconActive : colors.iconInactive);
-    showerIcon.style.opacity = dhwFlow > 0 ? "1" : "0.85";
 
     this._setTapTarget("#indoorTemp", entities.indoor_temperature);
     this._setTapTarget("#dhwFlow", entities.xtreme_dhw_flowrate);
