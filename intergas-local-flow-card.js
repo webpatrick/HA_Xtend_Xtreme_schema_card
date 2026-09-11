@@ -75,7 +75,14 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
 
   setConfig(config) {
     this._config = config || {};
-    this._render();
+    
+    // Only render if shadowRoot doesn't exist yet
+    if (!this.shadowRoot) {
+      this._render();
+    } else {
+      // Update entity pickers if hass is available
+      this._updateEntityPickers();
+    }
   }
 
   set hass(hass) {
