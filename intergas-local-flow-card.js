@@ -75,6 +75,7 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
 
   set hass(hass) {
     this._hass = hass;
+    this._updateEntityPickers();
   }
 
   _getLocale() {
@@ -140,15 +141,12 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
 
     const renderEntityRows = (rows) => rows
       .map(([key, label]) => {
-        const value = entities[key] || "";
         return `
           <div class="row">
             <label>${label}</label>
             <ha-entity-picker 
               data-key="${key}"
-              entity-id="${this._escape(value)}"
-              allow-custom-entity
-              hass-object>
+              allow-custom-entity>
             </ha-entity-picker>
           </div>
         `;
@@ -240,6 +238,25 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
     `;
 
     this._attachEventListeners();
+    this._updateEntityPickers();
+  }
+
+  _updateEntityPickers() {
+    if (!this._hass) return;
+    
+    const entityPickers = this.shadowRoot?.querySelectorAll("ha-entity-picker");
+    if (!entityPickers) return;
+
+    const config = this._config || {};
+    const entities = config.entities || {};
+
+    entityPickers.forEach((picker) => {
+      picker.hass = this._hass;
+      const key = picker.dataset.key;
+      if (key && entities[key]) {
+        picker.value = entities[key];
+      }
+    });
   }
 
   _attachEventListeners() {
