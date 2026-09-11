@@ -1,4 +1,239 @@
+const XTEND_XTREME_I18N = {
+  nl: {
+    entities: "Entiteiten",
+    labels: "Labels",
+    colors: "Kleuren",
+    indoor_temperature: "Binnen temp",
+    xtreme_dhw_flowrate: "DHW flow",
+    ch_flow: "CH flow",
+    indoor_requested_temperature: "Verlangde temp",
+    room_set_temperature: "Ruimte setpoint",
+    outdoor_temperature: "Buiten temp",
+    xtreme_supply_temperature: "Xtreme toevoer",
+    xtreme_delta_t: "Xtreme ΔT",
+    xtreme_return_temperature: "Xtreme retour",
+    xtreme_active_check: "Xtreme actief",
+    xtend_supply_temperature: "Xtend toevoer",
+    xtend_delta_t: "Xtend ΔT",
+    xtend_return_temperature: "Xtend retour",
+    xtend_active_check: "Xtend actief",
+    burner_active: "Brander actief",
+    odu_gas_temperature: "ODU gas",
+    odu_liquid_temperature: "ODU vloeistof",
+    fan_speed: "Ventilator snelheid",
+    indoorTitle: "Binnen titel",
+    outdoorTitle: "Buiten titel",
+    oduTitle: "ODU titel",
+    xtremeTitle: "Xtreme titel",
+    xtendTitle: "Xtend titel",
+    heatDistributionLabel: "Warmte label",
+    iconActive: "Actieve icoon",
+    iconInactive: "Inactieve icoon",
+    heatActive: "Actieve warmte",
+    coolActive: "Actieve kou",
+  },
+  en: {
+    entities: "Entities",
+    labels: "Labels",
+    colors: "Colors",
+    indoor_temperature: "Indoor temp",
+    xtreme_dhw_flowrate: "DHW flow",
+    ch_flow: "CH flow",
+    indoor_requested_temperature: "Requested temp",
+    room_set_temperature: "Room setpoint",
+    outdoor_temperature: "Outdoor temp",
+    xtreme_supply_temperature: "Xtreme supply",
+    xtreme_delta_t: "Xtreme ΔT",
+    xtreme_return_temperature: "Xtreme return",
+    xtreme_active_check: "Xtreme active",
+    xtend_supply_temperature: "Xtend supply",
+    xtend_delta_t: "Xtend ΔT",
+    xtend_return_temperature: "Xtend return",
+    xtend_active_check: "Xtend active",
+    burner_active: "Burner active",
+    odu_gas_temperature: "ODU gas",
+    odu_liquid_temperature: "ODU liquid",
+    fan_speed: "Fan speed",
+    indoorTitle: "Indoor title",
+    outdoorTitle: "Outdoor title",
+    oduTitle: "ODU title",
+    xtremeTitle: "Xtreme title",
+    xtendTitle: "Xtend title",
+    heatDistributionLabel: "Heat label",
+    iconActive: "Active icon",
+    iconInactive: "Inactive icon",
+    heatActive: "Active heat",
+    coolActive: "Active cool",
+  },
+};
+
+class XtendXtremeSchemaCardEditor extends HTMLElement {
+  setConfig(config) {
+    this._config = config || {};
+    this._render();
+  }
+
+  _getLocale() {
+    const navigatorLocale = typeof navigator !== "undefined" ? navigator.language || navigator.languages?.[0] : "";
+    const currentLocale = typeof document !== "undefined" ? (document.documentElement?.lang || "") : "";
+    const locale = (navigatorLocale || currentLocale || "en").toLowerCase();
+    return locale.startsWith("nl") ? "nl" : "en";
+  }
+
+  _t(key) {
+    const locale = this._getLocale();
+    const dictionary = XTEND_XTREME_I18N[locale] || XTEND_XTREME_I18N.en;
+    return dictionary[key] || XTEND_XTREME_I18N.en[key] || key;
+  }
+
+  _render() {
+    if (!this.shadowRoot) {
+      this.attachShadow({ mode: "open" });
+    }
+
+    const config = this._config || {};
+    const entities = config.entities || {};
+    const labels = config.labels || {};
+    const colors = config.colors || {};
+    const t = (key) => this._t(key);
+
+    const entityFields = [
+      ["indoor_temperature", t("indoor_temperature")],
+      ["xtreme_dhw_flowrate", t("xtreme_dhw_flowrate")],
+      ["ch_flow", t("ch_flow")],
+      ["indoor_requested_temperature", t("indoor_requested_temperature")],
+      ["room_set_temperature", t("room_set_temperature")],
+      ["outdoor_temperature", t("outdoor_temperature")],
+      ["xtreme_supply_temperature", t("xtreme_supply_temperature")],
+      ["xtreme_delta_t", t("xtreme_delta_t")],
+      ["xtreme_return_temperature", t("xtreme_return_temperature")],
+      ["xtreme_active_check", t("xtreme_active_check")],
+      ["xtend_supply_temperature", t("xtend_supply_temperature")],
+      ["xtend_delta_t", t("xtend_delta_t")],
+      ["xtend_return_temperature", t("xtend_return_temperature")],
+      ["xtend_active_check", t("xtend_active_check")],
+      ["burner_active", t("burner_active")],
+      ["odu_gas_temperature", t("odu_gas_temperature")],
+      ["odu_liquid_temperature", t("odu_liquid_temperature")],
+      ["fan_speed", t("fan_speed")],
+    ];
+
+    const labelFields = [
+      ["indoorTitle", t("indoorTitle")],
+      ["outdoorTitle", t("outdoorTitle")],
+      ["oduTitle", t("oduTitle")],
+      ["xtremeTitle", t("xtremeTitle")],
+      ["xtendTitle", t("xtendTitle")],
+      ["heatDistributionLabel", t("heatDistributionLabel")],
+    ];
+
+    const colorFields = [
+      ["iconActive", t("iconActive")],
+      ["iconInactive", t("iconInactive")],
+      ["heatActive", t("heatActive")],
+      ["coolActive", t("coolActive")],
+    ];
+
+    const renderRows = (rows, group) => rows
+      .map(([key, label]) => {
+        const value = (group === "entities" ? entities : group === "labels" ? labels : colors)[key] || "";
+        return `
+          <div class="row">
+            <label>${label}</label>
+            <input type="text" data-group="${group}" data-key="${key}" value="${this._escape(value)}" />
+          </div>
+        `;
+      })
+      .join("");
+
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host {
+          display: block;
+          color: var(--primary-text-color);
+          font-family: var(--paper-font-body1_-_font-family);
+        }
+        .section {
+          border: 1px solid var(--divider-color, rgba(0,0,0,0.12));
+          border-radius: 8px;
+          padding: 12px;
+          margin-bottom: 16px;
+        }
+        .section h3 {
+          margin: 0 0 12px;
+          font-size: 1rem;
+        }
+        .row {
+          display: grid;
+          grid-template-columns: 160px 1fr;
+          gap: 8px;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+        label {
+          font-size: 0.9rem;
+          color: var(--primary-text-color);
+        }
+        input {
+          width: 100%;
+          box-sizing: border-box;
+          padding: 8px 10px;
+          border: 1px solid var(--divider-color, rgba(0,0,0,0.12));
+          border-radius: 4px;
+          background: var(--card-background-color, #fff);
+          color: var(--primary-text-color);
+        }
+      </style>
+
+      <div class="section">
+        <h3>${t("entities")}</h3>
+        ${renderRows(entityFields, "entities")}
+      </div>
+      <div class="section">
+        <h3>${t("labels")}</h3>
+        ${renderRows(labelFields, "labels")}
+      </div>
+      <div class="section">
+        <h3>${t("colors")}</h3>
+        ${renderRows(colorFields, "colors")}
+      </div>
+    `;
+  }
+
+  _escape(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  getConfig() {
+    const config = {
+      type: "custom:xtend-xtreme-schema-card",
+      entities: {},
+      labels: {},
+      colors: {},
+    };
+
+    const inputs = this.shadowRoot.querySelectorAll("input");
+    inputs.forEach((input) => {
+      const group = input.dataset.group;
+      const key = input.dataset.key;
+      const value = input.value.trim();
+      if (!group || !key || !value) return;
+      config[group][key] = value;
+    });
+
+    return config;
+  }
+}
+
 class XtendXtremeSchemaCard extends HTMLElement {
+  static getConfigElement() {
+    return document.createElement("xtend-xtreme-schema-card-editor");
+  }
+
   static getStubConfig() {
     return {
       type: "custom:xtend-xtreme-schema-card",
@@ -516,6 +751,7 @@ class XtendXtremeSchemaCard extends HTMLElement {
   }
 }
 
+customElements.define("xtend-xtreme-schema-card-editor", XtendXtremeSchemaCardEditor);
 customElements.define("xtend-xtreme-schema-card", XtendXtremeSchemaCard);
 
 window.customCards = window.customCards || [];
