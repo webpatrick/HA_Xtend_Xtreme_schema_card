@@ -557,9 +557,9 @@ class XtendXtremeSchemaCard extends HTMLElement {
           </svg>
 
           <svg id="flow-xtend" class="flow flow-main" viewBox="0 0 800 800" aria-hidden="true">
-            <path class="heat" d="M400 390 v60"></path>
-            <path class="cool" d="M400 530 v190"></path>
-            <path class="cool" d="M330 720 v-330"></path>
+            <path class="heat backward" d="M400 390 v60"></path>
+            <path class="heat backward" d="M400 530 v190"></path>
+            <path class="cool forward" d="M330 720 v-330"></path>
           </svg>
 
           <svg id="flow-fan" class="flow flow-fan" viewBox="0 0 800 800" aria-hidden="true">
@@ -663,8 +663,14 @@ class XtendXtremeSchemaCard extends HTMLElement {
       .flow-main path.heat {
         stroke: #ff8c00 !important;
       }
+      .flow-main path.heat.backward {
+        animation: dash-backward 1s linear infinite !important;
+      }
       .flow-main path.cool {
         stroke: #3498db !important;
+      }
+      .flow-main path.cool.forward {
+        animation: dash-forward 1s linear infinite !important;
       }
       .flow-fan .forward {
         stroke: #3498db;
