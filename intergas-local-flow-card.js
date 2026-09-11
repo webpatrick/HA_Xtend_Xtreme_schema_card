@@ -196,14 +196,15 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
         }
         .row {
           display: grid;
-          grid-template-columns: 160px 1fr;
-          gap: 8px;
+          grid-template-columns: 200px 1fr;
+          gap: 12px;
           align-items: center;
-          margin-bottom: 10px;
+          margin-bottom: 12px;
         }
         label {
           font-size: 0.9rem;
           color: var(--primary-text-color);
+          font-weight: 500;
         }
         input {
           width: 100%;
