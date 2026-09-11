@@ -210,7 +210,7 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
 
   getConfig() {
     const config = {
-      type: "custom:xtend-xtreme-schema-card",
+      type: "custom:intergas-local-flow-card",
       entities: {},
       labels: {},
       colors: {},
@@ -231,12 +231,12 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
 
 class XtendXtremeSchemaCard extends HTMLElement {
   static getConfigElement() {
-    return document.createElement("xtend-xtreme-schema-card-editor");
+    return document.createElement("intergas-local-flow-card-editor");
   }
 
   static getStubConfig() {
     return {
-      type: "custom:xtend-xtreme-schema-card",
+      type: "custom:intergas-local-flow-card",
     };
   }
 
@@ -751,12 +751,13 @@ class XtendXtremeSchemaCard extends HTMLElement {
   }
 }
 
-customElements.define("xtend-xtreme-schema-card-editor", XtendXtremeSchemaCardEditor);
+customElements.define("intergas-local-flow-card-editor", XtendXtremeSchemaCardEditor);
+customElements.define("intergas-local-flow-card", XtendXtremeSchemaCard);
 customElements.define("xtend-xtreme-schema-card", XtendXtremeSchemaCard);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "xtend-xtreme-schema-card",
-  name: "Xtend Xtreme Schema Card",
+  type: "intergas-local-flow-card",
+  name: "HA Intergas Local Flow Card",
   description: "Intergas Xtend/Xtreme schema card with configurable entities.",
 });

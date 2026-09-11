@@ -17,14 +17,14 @@ It also has color and animation for state and flow.
 ## Installation (HACS JavaScript card)
 
 1. Add this repository as a custom repository in HACS (`Dashboard` category).
-2. Install **Xtend Xtreme Schema Card**.
-3. Add [xtend-xtreme-schema-card.js](./xtend-xtreme-schema-card.js) as a Lovelace resource if needed:
-   - URL: `/hacsfiles/HA_Xtend_Xtreme_schema_card/xtend-xtreme-schema-card.js`
+2. Install **HA Intergas Local Flow Card**.
+3. Add [intergas-local-flow-card.js](./intergas-local-flow-card.js) as a Lovelace resource if needed:
+   - URL: `/hacsfiles/HA_Intergas_Local_Flow_Card/intergas-local-flow-card.js`
    - Type: `module`
 4. Add a card:
 
 ```yaml
-type: custom:xtend-xtreme-schema-card
+type: custom:intergas-local-flow-card
 entities:
   indoor_temperature: sensor.intergas_xtend_room_temperature
   ch_flow: sensor.intergas_xtend_f_system

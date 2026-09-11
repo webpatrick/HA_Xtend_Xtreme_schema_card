@@ -1,6 +1,6 @@
 {
-  "name": "Xtend Xtreme Schema Card",
+  "name": "HA Intergas Local Flow Card",
   "content_in_root": true,
   "render_readme": true,
-  "filename": "xtend-xtreme-schema-card.js"
+  "filename": "intergas-local-flow-card.js"
 }
