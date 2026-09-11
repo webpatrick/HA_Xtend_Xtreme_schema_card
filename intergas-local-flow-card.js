@@ -68,6 +68,11 @@ const XTEND_XTREME_I18N = {
 };
 
 class XtendXtremeSchemaCardEditor extends HTMLElement {
+  constructor() {
+    super();
+    this._configChangeTimeout = null;
+  }
+
   setConfig(config) {
     this._config = config || {};
     this._render();
@@ -286,16 +291,26 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
     const entityPickers = this.shadowRoot.querySelectorAll("ha-entity-picker");
     entityPickers.forEach((picker) => {
       picker.addEventListener("value-changed", (e) => {
-        this._fireConfigChanged();
+        this._scheduleConfigChanged();
       });
     });
 
     const inputs = this.shadowRoot.querySelectorAll("input");
     inputs.forEach((input) => {
       input.addEventListener("input", () => {
-        this._fireConfigChanged();
+        this._scheduleConfigChanged();
       });
     });
+  }
+
+  _scheduleConfigChanged() {
+    if (this._configChangeTimeout) {
+      clearTimeout(this._configChangeTimeout);
+    }
+    this._configChangeTimeout = setTimeout(() => {
+      this._fireConfigChanged();
+      this._configChangeTimeout = null;
+    }, 300);
   }
 
   _fireConfigChanged() {
