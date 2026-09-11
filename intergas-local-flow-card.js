@@ -177,7 +177,7 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
         return `
           <div class="row">
             <label>${label}</label>
-            <input type="text" data-key="${key}" value="${this._escape(value)}" />
+            <input type="text" data-group="labels" data-key="${key}" value="${this._escape(value)}" />
           </div>
         `;
       })
@@ -189,7 +189,7 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
         return `
           <div class="row">
             <label>${label}</label>
-            <input type="color" data-key="${key}" value="${this._escape(value)}" />
+            <input type="color" data-group="colors" data-key="${key}" value="${this._escape(value)}" />
           </div>
         `;
       })
@@ -331,7 +331,7 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
       }
     });
 
-    const labelInputs = this.shadowRoot.querySelectorAll(".section:nth-child(2) input");
+    const labelInputs = this.shadowRoot.querySelectorAll("input[data-group='labels']");
     labelInputs.forEach((input) => {
       const key = input.dataset.key;
       const value = input.value.trim();
@@ -340,7 +340,7 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
       }
     });
 
-    const colorInputs = this.shadowRoot.querySelectorAll(".section:nth-child(3) input");
+    const colorInputs = this.shadowRoot.querySelectorAll("input[data-group='colors']");
     colorInputs.forEach((input) => {
       const key = input.dataset.key;
       const value = input.value.trim();
