@@ -73,6 +73,10 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
     this._render();
   }
 
+  set hass(hass) {
+    this._hass = hass;
+  }
+
   _getLocale() {
     const navigatorLocale = typeof navigator !== "undefined" ? navigator.language || navigator.languages?.[0] : "";
     const currentLocale = typeof document !== "undefined" ? (document.documentElement?.lang || "") : "";
@@ -134,13 +138,42 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
       ["coolActive", t("coolActive")],
     ];
 
-    const renderRows = (rows, group) => rows
+    const renderEntityRows = (rows) => rows
       .map(([key, label]) => {
-        const value = (group === "entities" ? entities : group === "labels" ? labels : colors)[key] || "";
+        const value = entities[key] || "";
         return `
           <div class="row">
             <label>${label}</label>
-            <input type="text" data-group="${group}" data-key="${key}" value="${this._escape(value)}" />
+            <ha-entity-picker 
+              data-key="${key}"
+              entity-id="${this._escape(value)}"
+              allow-custom-entity
+              hass-object>
+            </ha-entity-picker>
+          </div>
+        `;
+      })
+      .join("");
+
+    const renderLabelRows = (rows) => rows
+      .map(([key, label]) => {
+        const value = labels[key] || "";
+        return `
+          <div class="row">
+            <label>${label}</label>
+            <input type="text" data-key="${key}" value="${this._escape(value)}" />
+          </div>
+        `;
+      })
+      .join("");
+
+    const renderColorRows = (rows) => rows
+      .map(([key, label]) => {
+        const value = colors[key] || "#000000";
+        return `
+          <div class="row">
+            <label>${label}</label>
+            <input type="color" data-key="${key}" value="${this._escape(value)}" />
           </div>
         `;
       })
@@ -183,21 +216,54 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
           background: var(--card-background-color, #fff);
           color: var(--primary-text-color);
         }
+        input[type="color"] {
+          height: 40px;
+          cursor: pointer;
+        }
+        ha-entity-picker {
+          width: 100%;
+        }
       </style>
 
       <div class="section">
         <h3>${t("entities")}</h3>
-        ${renderRows(entityFields, "entities")}
+        ${renderEntityRows(entityFields)}
       </div>
       <div class="section">
         <h3>${t("labels")}</h3>
-        ${renderRows(labelFields, "labels")}
+        ${renderLabelRows(labelFields)}
       </div>
       <div class="section">
         <h3>${t("colors")}</h3>
-        ${renderRows(colorFields, "colors")}
+        ${renderColorRows(colorFields)}
       </div>
     `;
+
+    this._attachEventListeners();
+  }
+
+  _attachEventListeners() {
+    const entityPickers = this.shadowRoot.querySelectorAll("ha-entity-picker");
+    entityPickers.forEach((picker) => {
+      picker.addEventListener("value-changed", (e) => {
+        this._fireConfigChanged();
+      });
+    });
+
+    const inputs = this.shadowRoot.querySelectorAll("input");
+    inputs.forEach((input) => {
+      input.addEventListener("input", () => {
+        this._fireConfigChanged();
+      });
+    });
+  }
+
+  _fireConfigChanged() {
+    this.dispatchEvent(new CustomEvent("config-changed", {
+      detail: { config: this.getConfig() },
+      bubbles: true,
+      composed: true,
+    }));
   }
 
   _escape(value) {
@@ -216,13 +282,31 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
       colors: {},
     };
 
-    const inputs = this.shadowRoot.querySelectorAll("input");
-    inputs.forEach((input) => {
-      const group = input.dataset.group;
+    const entityPickers = this.shadowRoot.querySelectorAll("ha-entity-picker");
+    entityPickers.forEach((picker) => {
+      const key = picker.dataset.key;
+      const value = picker.value || "";
+      if (key && value) {
+        config.entities[key] = value;
+      }
+    });
+
+    const labelInputs = this.shadowRoot.querySelectorAll(".section:nth-child(2) input");
+    labelInputs.forEach((input) => {
       const key = input.dataset.key;
       const value = input.value.trim();
-      if (!group || !key || !value) return;
-      config[group][key] = value;
+      if (key && value) {
+        config.labels[key] = value;
+      }
+    });
+
+    const colorInputs = this.shadowRoot.querySelectorAll(".section:nth-child(3) input");
+    colorInputs.forEach((input) => {
+      const key = input.dataset.key;
+      const value = input.value.trim();
+      if (key && value) {
+        config.colors[key] = value;
+      }
     });
 
     return config;
