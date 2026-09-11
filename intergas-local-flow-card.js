@@ -97,9 +97,27 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
     }
 
     const config = this._config || {};
+    
+    // Apply defaults for labels and colors
+    const defaultLabels = {
+      indoorTitle: "Binnen",
+      outdoorTitle: "Buiten",
+      oduTitle: "ODU",
+      xtremeTitle: "Xtreme",
+      xtendTitle: "Xtend",
+      heatDistributionLabel: "~ Warmteverdeelsysteem ~",
+    };
+    
+    const defaultColors = {
+      iconActive: "#f1c40f",
+      iconInactive: "gray",
+      heatActive: "#ff8c00",
+      coolActive: "#3498db",
+    };
+    
     const entities = config.entities || {};
-    const labels = config.labels || {};
-    const colors = config.colors || {};
+    const labels = { ...defaultLabels, ...config.labels };
+    const colors = { ...defaultColors, ...config.colors };
     const t = (key) => this._t(key);
 
     const entityFields = [
@@ -189,6 +207,7 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
           border-radius: 8px;
           padding: 12px;
           margin-bottom: 16px;
+          overflow-x: auto;
         }
         .section h3 {
           margin: 0 0 12px;
@@ -196,7 +215,7 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
         }
         .row {
           display: grid;
-          grid-template-columns: 200px 1fr;
+          grid-template-columns: minmax(150px, 200px) 1fr;
           gap: 12px;
           align-items: center;
           margin-bottom: 12px;
@@ -205,6 +224,7 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
           font-size: 0.9rem;
           color: var(--primary-text-color);
           font-weight: 500;
+          word-break: break-word;
         }
         input {
           width: 100%;
@@ -214,6 +234,7 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
           border-radius: 4px;
           background: var(--card-background-color, #fff);
           color: var(--primary-text-color);
+          min-width: 0;
         }
         input[type="color"] {
           height: 40px;
@@ -221,6 +242,7 @@ class XtendXtremeSchemaCardEditor extends HTMLElement {
         }
         ha-entity-picker {
           width: 100%;
+          min-width: 0;
         }
       </style>
 
